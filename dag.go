@@ -1,0 +1,60 @@
+package dag
+
+// Dag represents directed acyclic graph
+type Dag struct {
+	jobs []*Job
+}
+
+// New creates new DAG
+func New() *Dag {
+	return &Dag{
+		jobs: make([]*Job, 0),
+	}
+}
+
+// Run starts the tasks
+func (dag *Dag) Run() {
+
+	for _, job := range dag.jobs {
+		run(job)
+	}
+
+}
+
+// Pipeline executes tasks sequentially
+func (dag *Dag) Pipeline(tasks ...func()) *pipelineResult {
+
+	job := &Job{
+		tasks:      make([]func(), len(tasks)),
+		sequential: true,
+	}
+
+	for i, task := range tasks {
+		job.tasks[i] = task
+	}
+
+	dag.jobs = append(dag.jobs, job)
+
+	return &pipelineResult{
+		dag,
+	}
+}
+
+// Spawns executes tasks concurrently
+func (dag *Dag) Spawns(tasks ...func()) *spawnsResult {
+
+	job := &Job{
+		tasks:      make([]func(), len(tasks)),
+		sequential: false,
+	}
+
+	for i, task := range tasks {
+		job.tasks[i] = task
+	}
+
+	dag.jobs = append(dag.jobs, job)
+
+	return &spawnsResult{
+		dag,
+	}
+}
