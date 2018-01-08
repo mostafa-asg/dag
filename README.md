@@ -67,3 +67,13 @@ d.Run()
 ```
 Full example : [examples/ex6/ex6.go](examples/ex6/ex6.go)
 
+## Example 7
+We can use **OnComplete** method after *Pipeline* or *Spawns* to notify when functions has completed.
+```Go
+d := dag.New()
+d.Pipeline(f1, f2).OnComplete(f3).
+	  Then().
+  Spawns(f1, f2).OnComplete(f4)
+d.Run()
+```
+Full example : [examples/ex7/ex7.go](examples/ex7/ex7.go)
