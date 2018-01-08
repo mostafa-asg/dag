@@ -22,12 +22,26 @@ func (dag *Dag) lastJob() *Job {
 }
 
 // Run starts the tasks
+// It will block until all functions have done
 func (dag *Dag) Run() {
 
 	for _, job := range dag.jobs {
 		run(job)
 	}
 
+}
+
+// RunAsync executes Run on another goroutine
+func (dag *Dag) RunAsync(onComplete func()) {
+	go func() {
+
+		dag.Run()
+
+		if onComplete != nil {
+			onComplete()
+		}
+
+	}()
 }
 
 // Pipeline executes tasks sequentially
