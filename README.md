@@ -79,8 +79,8 @@ d.Run()
 Full example : [examples/ex7/ex7.go](examples/ex7/ex7.go)
 
 ## Example 8
-Basically, Run() will block until all functions have done. If you don't want to be blocked, you can use RunAsync() method. It
- accepts a callback function, that will be fired when all functions have done.
+Basically, Run() will block until all functions are done. If you don't want to be blocked, you can use RunAsync() method. It
+ accepts a callback function, that will be called when all functions are done.
  ```Go	
  d := dag.New()
  d.Pipeline(f1, f2).Then().Spawns(f3, f4)
