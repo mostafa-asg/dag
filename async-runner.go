@@ -15,4 +15,7 @@ func runAsync(job *Job) {
 	}
 
 	wg.Wait()
+	if job.onComplete != nil {
+		job.onComplete()
+	}
 }

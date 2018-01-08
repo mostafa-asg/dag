@@ -10,6 +10,14 @@ func (result *pipelineResult) Then() *pipelineDSL {
 	}
 }
 
+func (result *pipelineResult) OnComplete(action func()) *pipelineResult {
+	job := result.dag.lastJob()
+	if job != nil {
+		job.onComplete = action
+	}
+	return result
+}
+
 type pipelineDSL struct {
 	dag *Dag
 }
@@ -29,6 +37,14 @@ func (result *spawnsResult) Join() *spawnsDSL {
 	return &spawnsDSL{
 		result.dag,
 	}
+}
+
+func (result *spawnsResult) OnComplete(action func()) *spawnsResult {
+	job := result.dag.lastJob()
+	if job != nil {
+		job.onComplete = action
+	}
+	return result
 }
 
 type spawnsDSL struct {

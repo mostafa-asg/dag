@@ -12,6 +12,15 @@ func New() *Dag {
 	}
 }
 
+func (dag *Dag) lastJob() *Job {
+	jobsCount := len(dag.jobs)
+	if jobsCount == 0 {
+		return nil
+	}
+
+	return dag.jobs[jobsCount-1]
+}
+
 // Run starts the tasks
 func (dag *Dag) Run() {
 
