@@ -22,7 +22,7 @@ func (dag *Dag) lastJob() *Job {
 }
 
 // Run starts the tasks
-// It will block until all functions have done
+// It will block until all functions are done
 func (dag *Dag) Run() {
 
 	for _, job := range dag.jobs {
